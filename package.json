@@ -1,5 +1,17 @@
 {
-  "name": "react-node-template",
+  "name": "csc847-project-3-group-3",
+  "description": "The web application for Group 3's CSC 847 Project 3.",
+  "keywords": [
+    "react",
+    "express",
+    "Google Cloud Vision API",
+    "Google Cloud Translate API",
+    "Googe Cloud Text-to-Speech API"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjaminkao/CSC847-Project-3-Group-3.git"
+  },
   "version": "0.0.0",
   "private": true,
   "scripts": {
