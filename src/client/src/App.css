@@ -3,26 +3,8 @@
 }
 
 .App-logo {
-  height: 30vmin;
+  height: 40vmin;
   pointer-events: none;
-}
-
-.Node-logo {
-  height: 30vmin;
-  pointer-events: none;
-}
-
-.logo-box {
-  padding-right: 4rem;
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-body {
-  background-color: #d7fffd;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,16 +14,18 @@ body {
 }
 
 .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: black;
+  color: white;
 }
 
 .App-link {
-  color: #003948;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
