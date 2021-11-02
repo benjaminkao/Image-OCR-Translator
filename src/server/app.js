@@ -6,15 +6,6 @@ var logger = require('morgan');
 
 const apiRouter = require('./routes/api');
 
-// Google Cloud Imports
-const {Storage} = require('@google-cloud/storage');
-
-
-const storage = new Storage({
-  projectId: 'csc-847-project-3',
-  keyFilename: '../../hidden.json'
-});
-
 var app = express();
 
 app.use(logger('dev'));
