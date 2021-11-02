@@ -1,0 +1,44 @@
+{
+  "name": "csc847-project3",
+  "version": "1.0.0",
+  "description": "React Node Template is a simple, unopinionated, full stack web app template, with the goal of facilitating quick prototyping and deployment to [Heroku](https://www.heroku.com/) or elsewhere.",
+  "scripts": {
+    "start": "cd src/server && npm install && npm start",
+    "dev": "concurrently \"cd src/server && nodemon\" \"cd src/client && npm start\"",
+    "build": "cd src/client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminkao/CSC847-Project-3-Group-3.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "Express",
+    "React",
+    "Google",
+    "Cloud",
+    "Vision",
+    "API",
+    "Google",
+    "Cloud",
+    "Translate",
+    "API",
+    "Google",
+    "Cloud",
+    "Text-to-Speech",
+    "API"
+  ],
+  "author": "Benjamin Kao, Elliot Kang, Hirva Patel, Khushboo Gandhi, Nidhi Jyani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benjaminkao/CSC847-Project-3-Group-3/issues"
+  },
+  "homepage": "https://github.com/benjaminkao/CSC847-Project-3-Group-3#readme",
+  "dependencies": {
+    "concurrently": "^6.3.0",
+    "nodemon": "^2.0.14"
+  }
+}
+
+
+
