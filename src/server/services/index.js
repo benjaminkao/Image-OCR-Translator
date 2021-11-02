@@ -7,6 +7,11 @@ const storage = new Storage({
 });
 const bucketName = 'test-847-p3';
 
+// Imports the Google Cloud client library
+const vision = require('@google-cloud/vision');
+
+// Creates a client
+const client = new vision.ImageAnnotatorClient();
 
 //Add helper functions inside here.
 //This makes our routes/api.js file less bulky
