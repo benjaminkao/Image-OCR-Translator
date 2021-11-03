@@ -4,10 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//routes
 const apiRouter = require('./routes/api');
+var uploadRouter = require('./routes/upload');
 
 // Google Cloud Imports
 const {Storage} = require('@google-cloud/storage');
+const vision = require('@google-cloud/vision')
+//const translate = require('@google-cloud/translate');
+//const textToSpeech = require('@google-cloud/text-to-speech');
+const Buffer = require('safe-buffer').Buffer; //to interact with binary data
 
 
 const storage = new Storage({
@@ -24,6 +30,9 @@ app.use(cookieParser());
 
 
 app.use('/api', apiRouter);
+app.use('/upload', uploadRouter)
+
+
 
 
 app.use(express.static(path.join(__dirname, "../client/build")));
