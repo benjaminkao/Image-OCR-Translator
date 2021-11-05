@@ -2,7 +2,10 @@
 const {Storage} = require('@google-cloud/storage');
 
 // Creates a client
-const storage = new Storage();
+const storage = new Storage({
+    keyFilename: "../../hidden.json"
+});
+//Edit the bucket name
 const bucketName = 'ENTER_BUCKET_NAME';
 
 module.exports = {
