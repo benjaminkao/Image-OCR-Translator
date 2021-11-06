@@ -20,8 +20,9 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
 
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
+  
 
-  console.log(req.body);
+  TextFromImageController.extractTextfromImage()
 
   console.log("ERROR: NOT IMPLEMENTED YET");
   res.send({
@@ -55,3 +56,21 @@ router.get('/text-to-speech/languages', (req, res, next) => {
 
 
 module.exports = router;
+
+
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'imagefile.jpg');
+    }
+});
+var upload = multer({ storage: storage });
+
+
+// router.get('/', upload.single('imagefile'), function(req, res, next) {
+//     extractTextfromImage(req, res);
+// });
