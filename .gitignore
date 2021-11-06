@@ -1,2 +1,4 @@
 node_modules/
 hidden.json
+.DS_Store
+*/.DS_Store
