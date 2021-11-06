@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 const TextToSpeechController = require('../controllers/TexttoSpeech').Controller;
-
+const ImageUploadController = require('../controllers/UploadToBucket');
+const TextFromImageController = require('../controllers/TextFromImage');
 
 /* GET home page. */
 router.get('/users', function(req, res, next) {
@@ -16,6 +17,20 @@ router.get('/image/upload', (req, res, next) => {
     status: "Failure",
     message: "Route is not implemented yet."
   });
+});
+
+router.post('/uploadImage', (req, res, next) => {
+  //Need parameters from request object...
+
+  //Then upload file to bucket
+  //ImageUploadController.upload(filename, filepath);
+});
+
+router.get('/TextFromImage', (req, res, next) => {
+  /*
+  const data = TextFromImageController.ImageToText(filename);
+  res.send(data);
+  */
 })
 
 router.get('/text-to-speech/upload', (req, res, next) => {
