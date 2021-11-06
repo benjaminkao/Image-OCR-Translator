@@ -1,5 +1,9 @@
 node_modules/
 hidden.json
+<<<<<<< HEAD
 .DS_Store
 */.DS_Store
 .env
+=======
+.env
+>>>>>>> 1f5dea3fbb4884e62ff4c614bfd56723e781e025
