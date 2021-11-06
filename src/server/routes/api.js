@@ -10,15 +10,21 @@ router.get('/users', function(req, res, next) {
   res.send({ users: ["joe", "bernie", "tulsi", "donald", "bill"] });
 });
 
+router.get('/image/upload', (req, res, next) => {
+  console.log("ERROR: NOT IMPLEMENTED YET");
+  res.send({
+    status: "Failure",
+    message: "Route is not implemented yet."
+  });
+})
 
-router.post('/text-to-speech', (req, res, next) => {
-
-  // Get the necessary parameters from the request object
-
-  TextToSpeechController.makeRequest();
-
-});
-
+router.get('/text-to-speech/upload', (req, res, next) => {
+  console.log("ERROR: NOT IMPLEMENTED YET");
+  res.send({
+    status: "Failure",
+    message: "Route is not implemented yet."
+  });
+})
 
 router.get('/text-to-speech/languages', (req, res, next) => {
   TextToSpeechController.listLanguages()

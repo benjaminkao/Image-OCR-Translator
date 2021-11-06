@@ -2,10 +2,7 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
 const util = require('util');
 
-
-const client = new textToSpeech.TextToSpeechClient({
-    keyFilename: "../../hidden.json"
-})
+const client = require('./ApiConnections').textToSpeech;
 
 const LanguageCodes = {
     // Need to figure out issues with language codes and language names

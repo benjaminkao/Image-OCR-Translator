@@ -4,16 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require("dotenv").config({
+  path: path.join(__dirname, "../../.env"),
+  debug: true  
+});
+
 const apiRouter = require('./routes/api');
 
-// Google Cloud Imports
-const {Storage} = require('@google-cloud/storage');
-
-
-const storage = new Storage({
-  projectId: 'csc-847-project-3',
-  keyFilename: '../../hidden.json'
-});
 
 var app = express();
 
