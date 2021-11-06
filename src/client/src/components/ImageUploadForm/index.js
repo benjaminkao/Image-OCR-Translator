@@ -67,6 +67,11 @@ const ImageUploadForm = () => {
   const handleSubmit = () => {
     console.log("handle submit clicked");
 
+    // This is where frontend makes request to backend
+    console.log("Selected langauge is: " + selectedLanguage)
+    console.log("Image: " + uploaded_pic);
+
+
     if (uploaded_pic === undefined) {
       alert("Please upload a pic");
     } else if (selectedLanguage === undefined || selectLanguage === "") {
