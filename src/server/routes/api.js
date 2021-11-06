@@ -22,7 +22,7 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
   //ImageUploadController.upload(filename, filepath);
   
 
-  TextFromImageController.extractTextfromImage()
+  TextFromImageController.extractTextfromImage(req, res, next);
 
   console.log("ERROR: NOT IMPLEMENTED YET");
   res.send({
@@ -60,15 +60,15 @@ module.exports = router;
 
 
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, 'imagefile.jpg');
-    }
-});
-var upload = multer({ storage: storage });
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, 'imagefile.jpg');
+//     }
+// });
+// var upload = multer({ storage: storage });
 
 
 // router.get('/', upload.single('imagefile'), function(req, res, next) {

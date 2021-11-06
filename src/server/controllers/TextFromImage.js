@@ -1,5 +1,7 @@
 const vision = require('./ApiConnections').vision;
-const StorageController = require('./Storage');
+const StorageController = require('./Storage').Controller;
+const path = require('path');
+const imageBucket = require('./Storage').imageBucket
 
 
 //Edit the bucket name
@@ -8,7 +10,7 @@ const bucketName = 'ENTER_BUCKET_NAME';
 
 const Controller = {
 
-  extractTextfromImage: (req, res, next) => {
+  extractTextfromImage: async (req, res, next) => {
     // console.log('testing:' + req.body.test1);
     console.log("sending image to Vision API");
 
@@ -16,12 +18,15 @@ const Controller = {
     // req.body.file
     // req.body.filename
     console.log(req.body);
+    
 
     const newPicture = path.resolve('/tmp', image.name);
 
     await requestAnimationFrame.files.image.mv(newPicture);
 
     console.log('Image moved in temporary directory');
+
+    // imageBucket
       
     // https://cloud.google.com/vision/docs/ocr
     const [result] = await vision.textDetection(newPicture);
