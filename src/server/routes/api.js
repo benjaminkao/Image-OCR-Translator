@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var multer = require('multer');
+let upload = multer();
+
 const TextToSpeechController = require('../controllers/TexttoSpeech').Controller;
 const ImageUploadController = require('../controllers/UploadToBucket');
 const TextFromImageController = require('../controllers/TextFromImage');
@@ -11,19 +14,20 @@ router.get('/users', function(req, res, next) {
   res.send({ users: ["joe", "bernie", "tulsi", "donald", "bill"] });
 });
 
-router.get('/image/upload', (req, res, next) => {
+
+router.post('/uploadImage', upload.fields([]), (req, res, next) => {
+  //Need parameters from request object...
+
+  //Then upload file to bucket
+  //ImageUploadController.upload(filename, filepath);
+
+  console.log(req.body);
+
   console.log("ERROR: NOT IMPLEMENTED YET");
   res.send({
     status: "Failure",
     message: "Route is not implemented yet."
   });
-});
-
-router.post('/uploadImage', (req, res, next) => {
-  //Need parameters from request object...
-
-  //Then upload file to bucket
-  //ImageUploadController.upload(filename, filepath);
 });
 
 router.get('/TextFromImage', (req, res, next) => {

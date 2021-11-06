@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 const ImageUploadForm = () => {
   let history = useHistory();
@@ -82,6 +83,35 @@ const ImageUploadForm = () => {
         state: {
           imageData: uploaded_pic,
         },
+      });
+
+
+      const formData = new FormData();
+      
+      // // Get Image Data
+      const imageData = document.querySelector('#formFile').files[0];
+      formData.append("file", uploaded_pic);
+      formData.append("filename", imageData.name);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      console.log(formData);
+      console.log(formData.get("file"));
+
+      fetch("/api/uploadImage",{
+        method: "POST",
+        body: formData
+      })
+      .then((response) => {
+          console.log(response);
+          alert("Succesfully uploaded image");
+      })
+      .catch((error) => {
+          alert(error);
+          console.log(error);
       });
     }
   };
