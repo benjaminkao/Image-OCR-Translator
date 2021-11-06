@@ -1,15 +1,57 @@
 import React, { useState } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 const ImageUploadForm = () => {
+  let history = useHistory();
   const [uploaded_pic, setUploadedPic] = useState();
   // eslint-disable-next-line
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState();
   // eslint-disable-next-line
   const [isChecked, setChecked] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+
+  const languageArray = [
+    "Afrikaans",
+    "Albanian",
+    "Arabic",
+    "Azerbaijani",
+    "Basque",
+    "Belarusian",
+    "Bengali",
+    "Bosnian",
+    "Bulgarian",
+    "Catalan",
+    "Cebuano",
+    "Chichewa",
+    "Chinese",
+    "Corsican",
+    "Croatian",
+    "Czech",
+    "Danish",
+    "Dutch",
+    "English",
+    "Esperanto",
+    "Estonian",
+    "Filipino",
+    "Finnish",
+    "French",
+    "Frisian",
+    "Galician",
+    "German",
+    "Greek",
+    " Haitian Creole",
+    "Hausa",
+  ];
+
+  const dropdown = languageArray.map((item) => (
+    <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+  ));
 
   const handlePhotoUpload = (event) => {
-    setUploadedPic(URL.createObjectURL(event.target.files[0]));
+    if (event.target.files.length !== 0) {
+      setUploadedPic(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
   const selectLanguage = (event) => {
@@ -20,6 +62,40 @@ const ImageUploadForm = () => {
   const isSpeechtoText = (event) => {
     console.log("isChecked: " + event.target.checked);
     setChecked(event.target.checked);
+  };
+
+  const handleSubmit = () => {
+    console.log("handle submit clicked");
+
+    // This is where frontend makes request to backend
+    console.log("Selected langauge is: " + selectedLanguage)
+    console.log("Image: " + uploaded_pic);
+
+
+    if (uploaded_pic === undefined) {
+      alert("Please upload a pic");
+    } else if (selectedLanguage === undefined || selectLanguage === "") {
+      alert("Please choose a language you wish to convert the text to.");
+    } else {
+      history.push({
+        pathname: "/details",
+        state: {
+          imageData: uploaded_pic,
+        },
+      });
+    }
+  };
+
+  const showLanguage = () => {
+    let text = "";
+
+    if (selectedLanguage !== undefined) {
+      text = selectedLanguage;
+    } else {
+      text = "Choose Language";
+    }
+
+    return text;
   };
 
   return (
@@ -45,15 +121,13 @@ const ImageUploadForm = () => {
             <Col>
               <Dropdown onSelect={selectLanguage}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  Choose Language
+                  {showLanguage()}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item eventKey="english">English</Dropdown.Item>
-                  <Dropdown.Item eventKey="hindi">Hindi</Dropdown.Item>
-                  <Dropdown.Item eventKey="chinese (simplified)">
-                    Chinese (Simplified)
-                  </Dropdown.Item>
+                <Dropdown.Menu
+                  style={{ maxHeight: "20rem", overflowY: "auto" }}
+                >
+                  {dropdown}
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
@@ -70,16 +144,24 @@ const ImageUploadForm = () => {
             </Form>
           </Row>
         </Col>
+
         <Col>
-          <img
-            style={{ height: "10rem", width: "auto", textAlign: "center" }}
-            src={uploaded_pic}
-            alt="uploaded pic"
-          />
+          <div style={{ maxWidth: "30rem" }}>
+            <img
+              style={{
+                maxHeight: "10rem",
+                maxWidth: "30rem",
+                textAlign: "center",
+              }}
+              src={uploaded_pic}
+            />
+          </div>
         </Col>
       </Row>
       <Row style={{ marginTop: "2rem" }}>
-        <Button variant="dark">Convert Image Text</Button>
+        <Button variant="dark" onClick={handleSubmit}>
+          Convert Image Text
+        </Button>
       </Row>
     </div>
   );

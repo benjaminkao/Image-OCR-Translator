@@ -1,7 +1,5 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-// import HomeIntro from '../components/HomeIntro';
-// import Footer from '../components/Footer';
 import ImageUploadForm from "../components/ImageUploadForm";
 
 const HomePage = () => {
