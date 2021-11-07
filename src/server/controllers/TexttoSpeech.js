@@ -7,6 +7,16 @@ const client = require('./ApiConnections').textToSpeech;
 const LanguageCodes = {
     // Need to figure out issues with language codes and language names
     // (language names are not descriptive enough so we may just have to pick and choose the languages we want)
+    Arabic: "ar-XA",
+    English: "en-US",
+    French: "fr-FR",
+    German: "de-DE",
+    Hindi: "hi-IN",
+    Italian: "it-IT",
+    Japanese: "ja-JP",
+    Korean: "ko-KR",
+    Mandarin: "cmn-CN",
+    Spanish: "es-ES",
 }
 
 const VoiceGender = {
@@ -17,22 +27,22 @@ const VoiceGender = {
 
 
 const Controller = {
-    listLanguages: async () => {
-        const [result] = await client.listVoices();
-        const voices = result.voices;
+    listLanguages: () => {
+        // const [result] = await client.listVoices();
+        // const voices = result.voices;
 
-        console.log('Voices: ');
-        voices.forEach(voice => {
-            console.log(`Name: ${voice.name}`);
-            console.log(`  SSML Voice Gender: ${voice.ssmlGender}`);
-            console.log(`  Natural Sample Rate Hertz: ${voice.naturalSampleRateHertz}`);
-            console.log('  Supported languages:');
-            voice.languageCodes.forEach(languageCode => {
-                console.log(`    ${languageCode}`);
-            });
-        });
+        // console.log('Voices: ');
+        // voices.forEach(voice => {
+        //     console.log(`Name: ${voice.name}`);
+        //     console.log(`  SSML Voice Gender: ${voice.ssmlGender}`);
+        //     console.log(`  Natural Sample Rate Hertz: ${voice.naturalSampleRateHertz}`);
+        //     console.log('  Supported languages:');
+        //     voice.languageCodes.forEach(languageCode => {
+        //         console.log(`    ${languageCode}`);
+        //     });
+        // });
 
-        return voices;
+        return LanguageCodes;
     },
     makeRequest: async (imageName, text, languageCode, voiceGender) => {
 

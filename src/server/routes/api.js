@@ -47,10 +47,13 @@ router.get('/text-to-speech/upload', (req, res, next) => {
 })
 
 router.get('/text-to-speech/languages', (req, res, next) => {
-  TextToSpeechController.listLanguages()
-    .then((voices) => {
-      res.send({voices: voices});
-    });
+  const languages = TextToSpeechController.listLanguages();
+
+  res.send({
+    status: "success",
+    languages: languages
+  })
+
 })
 
 

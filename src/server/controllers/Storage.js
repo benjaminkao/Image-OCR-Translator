@@ -8,18 +8,12 @@ const audioBucket = storage.bucket(process.env.AUDIO_BUCKET);
 
 const Controller = {
 
-    uploadImage: async (image) => {
-        const newPicture = path.resolve('/tmp', image.name);
-
-        await requestAnimationFrame.files.image.mv(newPicture);
-
-        console.log('Image moved in temporary directory');
-
-        await imageBucket.upload(newPicture, {resumable: false});
+    uploadImage: async (imagePath) => {
+        await imageBucket.upload(imagePath, {resumable: false});
 
     },
-    uploadAudio: (audio) => {
-        
+    uploadAudio: async (audioPath) => {
+        await audioBucket.upload(audioPath, {resumable: false})
     }
 }
 
