@@ -20,9 +20,9 @@ const Controller = {
     console.log(req.body);
     
 
-    const newPicture = path.resolve('/tmp', image.name);
+    const newPicture = path.resolve('/tmp', req.body.filename);
 
-    await requestAnimationFrame.files.image.mv(newPicture);
+    await req.body.file.mv(newPicture);
 
     console.log('Image moved in temporary directory');
 
