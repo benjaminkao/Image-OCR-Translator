@@ -20,7 +20,7 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
 
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
-  
+
 
   TextFromImageController.extractTextfromImage(req, res, next);
 
@@ -30,6 +30,15 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
     message: "Route is not implemented yet."
   });
 });
+
+//Run text-to-speech/test, then run uploadAudio/test
+router.post('/uploadAudio/test', (req, res, next) =>{
+  const filepath = '../testImage-English-GENERAL.mp3';
+  const filename = 'sample1357';
+  ImageUploadController.uploadFile(filepath, filename);
+
+  res.send("uploadAudio/test complete! Check bucket");
+})
 
 router.post('/text-to-speech', (req, res, next) => {
 
