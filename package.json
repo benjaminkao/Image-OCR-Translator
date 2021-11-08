@@ -36,9 +36,7 @@
   "homepage": "https://github.com/benjaminkao/CSC847-Project-3-Group-3#readme",
   "dependencies": {
     "concurrently": "^6.3.0",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "react-icons": "^4.3.1"
   }
 }
-
-
-
