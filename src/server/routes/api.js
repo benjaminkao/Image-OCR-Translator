@@ -75,6 +75,13 @@ router.get('/text-to-speech/test', (req, res, next) => {
 
 });
 
+router.get('/text-to-speech/testAudio', (req, res, next) => {
+  res.send({
+    status: "success",
+    url: "https://storage.googleapis.com/audio-files-csc-847-project-3/test.mp3"
+  });
+})
+
 
 
 router.get('/text-to-speech/languages', (req, res, next) => {
