@@ -88,14 +88,14 @@ const Controller = {
             audioConfig: {audioEncoding: 'MP3'},
         }
 
-        // // Performs the text-to-speech request
-        // const [response] = await client.synthesizeSpeech(request);
+        // Performs the text-to-speech request
+        const [response] = await client.synthesizeSpeech(request);
 
-        // // Write the binary audio content to a local file
+        // Write the binary audio content to a local file
 
-        // const writeFile = util.promisify(fs.writeFile);
-        // await writeFile(`${fileName}.mp3`, response.audioContent, 'binary');
-        // console.log(`Audio content written to file: ${fileName}.mp3`);
+        const writeFile = util.promisify(fs.writeFile);
+        await writeFile(`${fileName}.mp3`, response.audioContent, 'binary');
+        console.log(`Audio content written to file: ${fileName}.mp3`);
 
 
         // Store the newly created audio file into a Google Cloud Storage Bucket

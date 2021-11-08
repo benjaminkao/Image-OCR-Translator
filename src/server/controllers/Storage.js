@@ -15,19 +15,18 @@ const Controller = {
 
     },
     uploadAudio: async (audioPath) => {
-        console.log(`Uploading ${audioPath} to Google Cloud Storage`);
+        
 
-        try {
-            var stats = fs.existsSync(audioPath);
-            console.log("Audio file exists.");
-        } catch (err) {
+        var stats = fs.existsSync(audioPath);
+
+        if(!stats) {
             console.log("Audio File does not exist.");
 
             throw Error({
                 message: "Audio File does not exist."
             })
         }
-
+        console.log(`Uploading ${audioPath} to Google Cloud Storage`);
         console.log(audioBucket.name);
 
         audioBucket.upload(audioPath, {resumable: false})
@@ -55,7 +54,7 @@ const Controller = {
         return `https://storage.googleapis.com/${process.env.IMAGE_BUCKET}/${fileName}`;
     },
     getAudioURL: (fileName) => {
-        return `https://storage.googleapis.com/${process.env.AUDIO_BUCKET}/${fileName}`;
+        return `https://storage.googleapis.com/${process.env.AUDIO_BUCKET}/${fileName}.mp3`;
     }
 }
 
