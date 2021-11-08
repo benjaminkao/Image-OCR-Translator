@@ -31,20 +31,49 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
   });
 });
 
-router.get('/TextFromImage', (req, res, next) => {
-  /*
-  const data = TextFromImageController.ImageToText(filename);
-  res.send(data);
-  */
-})
+router.post('/text-to-speech', (req, res, next) => {
 
-router.get('/text-to-speech/upload', (req, res, next) => {
-  console.log("ERROR: NOT IMPLEMENTED YET");
-  res.send({
-    status: "Failure",
-    message: "Route is not implemented yet."
-  });
-})
+  // TODO: Need to get these parameters from the request object:
+  // - imageName
+  // - text
+  // - selected language
+
+
+  TextToSpeechController.makeRequest()
+    .then((url) => {
+      res.send({
+        status: "success",
+        url: url
+      });
+    })
+    .catch((err) => {
+      res.send({
+        status: "failure",
+        message: err.message
+      });
+    });
+});
+
+router.get('/text-to-speech/test', (req, res, next) => {
+  // Test Route for Text-to-Speech API
+
+  TextToSpeechController.makeRequest("testImage", "This is a test of the text-to-speech API", "English")
+    .then((url) => {
+      res.send({
+        status: "success",
+        url: url
+      });
+    })
+    .catch((err) => {
+      res.send({
+        status: "failure",
+        message: err.message
+      })
+    });
+
+});
+
+
 
 router.get('/text-to-speech/languages', (req, res, next) => {
   const languages = TextToSpeechController.listLanguages();
@@ -52,7 +81,7 @@ router.get('/text-to-speech/languages', (req, res, next) => {
   res.send({
     status: "success",
     languages: languages
-  })
+  });
 
 })
 

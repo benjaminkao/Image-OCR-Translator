@@ -3,6 +3,7 @@ const fs = require('fs');
 const util = require('util');
 
 const client = require('./ApiConnections').textToSpeech;
+const StorageController = require('./Storage').Controller;
 
 const LanguageCodes = {
     // Need to figure out issues with language codes and language names
@@ -44,12 +45,20 @@ const Controller = {
 
         return LanguageCodes;
     },
-    makeRequest: async (imageName, text, languageCode, voiceGender) => {
+    /**
+     * 
+     * @param {string} imageName The name of the image that was used to store the image in the Uploaded Images Bucket. This will be the prefix of the audio file name.
+     * @param {string} text 
+     * @param {string} languageCode 
+     * @param {string} voiceGender 
+     * @returns {string} Returns the public URL of the audio file in the Google Cloud Storage
+     */
+    makeRequest: async (imageName, text, language, voiceGender = "GENERAL") => {
 
         // Make sure language is supported by Google Text to Speech
-        if(!(languageCode in LanguageCode)) {
+        if(!(language in LanguageCodes)) {
             throw Error({
-                message: `${languageCode} is not a supported Google Text to Speech language.`
+                message: `${language} is not a supported Google Text to Speech language.`
             });
         }
 
@@ -60,26 +69,39 @@ const Controller = {
             });
         }
 
+        // Check if an audio file with the requested language already exists for the image
+        const fileName = `${imageName}-${language}-${voiceGender}`;
+
+        const fileExists = await StorageController.getAudio(fileName);
+
+        if(fileExists) {
+            // Return the name of the audio file
+            console.log("Audio File already exists for that image.");
+            return StorageController.getAudioURL(fileName);
+        }
+
+        // Audio File doesn't already exist, need to make a request to the Google Cloud Text-to-Speech API
 
         const request = {
             input: {text: text},
-            voice: {languageCode: languageCode, ssmlGender: voiceGender},
+            voice: {languageCode: LanguageCodes[language], ssmlGender: voiceGender},
             audioConfig: {audioEncoding: 'MP3'},
         }
 
-        // Performs the text-to-speech request
-        const [response] = await client.synthesizeSpeech(request);
+        // // Performs the text-to-speech request
+        // const [response] = await client.synthesizeSpeech(request);
 
-        // Write the binary audio content to a local file
+        // // Write the binary audio content to a local file
 
-        // TODO: Set the name of the audio file to be the same name as the picture
-        const writeFile = util.promisify(fs.writeFile);
-        await writeFile(`${imageName}.mp3`, response.audioContent, 'binary');
-        console.log(`Audio content written to file: ${imageName}.mp3`);
+        // const writeFile = util.promisify(fs.writeFile);
+        // await writeFile(`${fileName}.mp3`, response.audioContent, 'binary');
+        // console.log(`Audio content written to file: ${fileName}.mp3`);
 
 
         // Store the newly created audio file into a Google Cloud Storage Bucket
+        await StorageController.uploadAudio(`${fileName}.mp3`);
 
+        return StorageController.getAudioURL(fileName);
     }
 
 }
