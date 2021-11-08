@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 
 const ImageUploadForm = () => {
   let history = useHistory();
@@ -41,7 +40,7 @@ const ImageUploadForm = () => {
     "Galician",
     "German",
     "Greek",
-    " Haitian Creole",
+    "Haitian Creole",
     "Hausa",
   ];
 
@@ -69,9 +68,8 @@ const ImageUploadForm = () => {
     console.log("handle submit clicked");
 
     // This is where frontend makes request to backend
-    console.log("Selected langauge is: " + selectedLanguage)
+    console.log("Selected langauge is: " + selectedLanguage);
     console.log("Image: " + uploaded_pic);
-
 
     if (uploaded_pic === undefined) {
       alert("Please upload a pic");
@@ -85,11 +83,10 @@ const ImageUploadForm = () => {
         },
       });
 
-
       const formData = new FormData();
-      
+
       // // Get Image Data
-      const imageData = document.querySelector('#formFile').files[0];
+      const imageData = document.querySelector("#formFile").files[0];
       formData.append("file", uploaded_pic);
       formData.append("filename", imageData.name);
       const config = {
@@ -101,18 +98,18 @@ const ImageUploadForm = () => {
       console.log(formData);
       console.log(formData.get("file"));
 
-      fetch("/api/uploadImage",{
+      fetch("/api/uploadImage", {
         method: "POST",
-        body: formData
+        body: formData,
       })
-      .then((response) => {
+        .then((response) => {
           console.log(response);
           alert("Succesfully uploaded image");
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           alert(error);
           console.log(error);
-      });
+        });
     }
   };
 

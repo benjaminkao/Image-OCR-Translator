@@ -8,7 +8,7 @@ export const DetailsPage = () => {
       <div>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Translated Text</title>
+          <title>PhoText - Translated Text</title>
           <meta
             name="description"
             content="This website is made for CSC 847 Group 3 Project"

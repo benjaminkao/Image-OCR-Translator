@@ -5,16 +5,37 @@ import styles from "./index.module.css";
 
 const ConvertedTextDetails = () => {
   const location = useLocation();
+  //const width = "40px";
 
   return (
     <div>
       <Row>
         <Col>
-          <div>
+          <div style={{ position: "relative", top: "0", left: "0" }}>
             <img
-              style={{ maxHeight: "30rem", maxWidth: "30rem" }}
+              style={{
+                maxHeight: "30rem",
+                maxWidth: "30rem",
+                position: "relative",
+                top: "0",
+                left: "0",
+              }}
               src={location.state.imageData}
             />
+            {/* <div
+              style={{
+                position: "absolute",
+                left: "300px",
+                top: "0px",
+                zIndex: "1000",
+                width: `${width}`,
+                backgroundColor: "#92AD40",
+                padding: "5px",
+                color: "white",
+                fontWeight: "bold",
+                opacity: "0.6",
+              }}
+            ></div> */}
           </div>
         </Col>
         <Col>
