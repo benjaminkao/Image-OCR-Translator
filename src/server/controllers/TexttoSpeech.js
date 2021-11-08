@@ -99,7 +99,12 @@ const Controller = {
 
 
         // Store the newly created audio file into a Google Cloud Storage Bucket
-        await StorageController.uploadAudio(`${fileName}.mp3`);
+        try{
+            StorageController.uploadAudio(`${fileName}.mp3`);
+        } catch(err) {
+            console.log("got here");
+            console.log(err);
+        }
 
         return StorageController.getAudioURL(fileName);
     }

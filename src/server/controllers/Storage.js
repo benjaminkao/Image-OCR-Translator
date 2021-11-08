@@ -31,7 +31,11 @@ const Controller = {
 
         audioBucket.upload(audioPath, {resumable: false})
             .then((result) => {
-                console.log(result);
+                console.log("Completed");
+            })
+            .catch((err) => {
+                console.log(err);
+                throw err;
             })
 
     },
