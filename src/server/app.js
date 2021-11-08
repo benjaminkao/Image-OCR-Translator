@@ -4,22 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-//routes
-const apiRouter = require('./routes/api');
-var uploadRouter = require('./routes/upload');
 
-// Google Cloud Imports
-const {Storage} = require('@google-cloud/storage');
-const vision = require('@google-cloud/vision')
-//const translate = require('@google-cloud/translate');
-//const textToSpeech = require('@google-cloud/text-to-speech');
-const Buffer = require('safe-buffer').Buffer; //to interact with binary data
-
-
-const storage = new Storage({
-  projectId: 'csc-847-project-3',
-  keyFilename: '../../hidden.json'
+require("dotenv").config({
+  path: path.join(__dirname, "../../.env"),
+  debug: true  
 });
+
+const apiRouter = require('./routes/api');
+
 
 var app = express();
 
