@@ -8,6 +8,7 @@ const ConvertedTextDetails = () => {
   const location = useLocation();
   //const width = "40px";
   const [selectedLanguage, setSelectedLanguage] = useState();
+  const [tempData, setTempData] = useState('temp');
   const languageArray = [
     "Afrikaans",
     "Albanian",
@@ -96,10 +97,12 @@ const ConvertedTextDetails = () => {
           <h1>Do Comments Here</h1>
           <Row>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="inputGroup-sizing-default">Vision Api identified Text</InputGroup.Text>
+              <InputGroup.Text id="inputGroup-sizing-default" >Vision Api identified Text</InputGroup.Text>
               <FormControl
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
+                readOnly
+                value={tempData}
               />
             </InputGroup>
           </Row>
@@ -136,6 +139,9 @@ const ConvertedTextDetails = () => {
                 <FormControl
                   aria-label="Default"
                   aria-describedby="inputGroup-sizing-default"
+                  readOnly
+                  value={tempData}
+
                 />
             </InputGroup>
           </Row>
