@@ -68,7 +68,7 @@ router.get('/text-to-speech/test', (req, res, next) => {
 
   console.log("Testing the Text-to-Speech API.");
 
-  TextToSpeechController.makeRequest("testImage", "This is a test of the text-to-speech API", "English")
+  TextToSpeechController.makeRequest("testImage", "This is a test of the text-to-speech API", "Japanese")
     .then((url) => {
       res.send({
         status: "success",
