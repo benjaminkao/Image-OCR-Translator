@@ -166,7 +166,7 @@ const ConvertedTextDetails = () => {
                 </Row>
               </Col>
             </Row>
-            <Row style={{ marginTop: "2rem" }}>
+            <Row style={{ marginTop: "0rem" }}>
               <Form.Group>
                 <Form.Label
                   style={{
