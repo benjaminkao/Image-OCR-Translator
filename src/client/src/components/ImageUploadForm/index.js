@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
@@ -10,43 +10,33 @@ const ImageUploadForm = () => {
   // eslint-disable-next-line
   const [isChecked, setChecked] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const [languageArray, setLanguageAray] = useState([]);
+  const [dropdownLanguages, setDropdownLanguages] = useState([]);
 
-  const languageArray = [
-    "Afrikaans",
-    "Albanian",
-    "Arabic",
-    "Azerbaijani",
-    "Basque",
-    "Belarusian",
-    "Bengali",
-    "Bosnian",
-    "Bulgarian",
-    "Catalan",
-    "Cebuano",
-    "Chichewa",
-    "Chinese",
-    "Corsican",
-    "Croatian",
-    "Czech",
-    "Danish",
-    "Dutch",
-    "English",
-    "Esperanto",
-    "Estonian",
-    "Filipino",
-    "Finnish",
-    "French",
-    "Frisian",
-    "Galician",
-    "German",
-    "Greek",
-    "Haitian Creole",
-    "Hausa",
-  ];
+  useEffect(() => {
+    setDropdownLanguages([]);
+    fetch("api/text-to-speech/languages")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          Object.keys(result.languages).map(function (key) {
+            dropdownLanguages.push(key);
+          });
+          console.log("dropdown language " + dropdownLanguages);
+          dropdown();
+        },
+        (error) => {
+          console.log("error: " + error);
+        }
+      );
+  }, []);
 
-  const dropdown = languageArray.map((item) => (
-    <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-  ));
+  const dropdown = () => {
+    console.log("dropdown inside dropdown function is " + dropdownLanguages);
+    dropdownLanguages.map((item) => (
+      <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+    ));
+  };
 
   const handlePhotoUpload = (event) => {
     if (event.target.files.length !== 0) {
@@ -154,7 +144,7 @@ const ImageUploadForm = () => {
                 <Dropdown.Menu
                   style={{ maxHeight: "20rem", overflowY: "auto" }}
                 >
-                  {dropdown}
+                  {dropdown()}
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
