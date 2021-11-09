@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  InputGroup,
-  Form,
-  FormControl,
-  Dropdown,
-  Button,
-} from "react-bootstrap";
+import { Row, Col, Form, Dropdown, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import styles from "./index.module.css";
 import { BsMicFill } from "react-icons/bs";
 
 const ConvertedTextDetails = () => {
   const [selectedLanguage, setSelectedLanguage] = useState();
+  const [textToSpeechUrl, setTextToSpeechUrl] = useState();
   const [tempData, setTempData] = useState(
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
   );
   const location = useLocation();
   //const width = "40px";
 
-  const languageArray = location.state.dropdownLanguages;
+  let languageArray = [];
+  if (location != undefined) {
+    languageArray = location.state.dropdownLanguages;
+  }
 
   const selectLanguage = (event) => {
     setSelectedLanguage(event);
@@ -33,7 +29,8 @@ const ConvertedTextDetails = () => {
     if (selectedLanguage !== undefined) {
       text = selectedLanguage;
     } else {
-      if (location.state.selectedLanguage !== null) {
+      let language = location.state.selectedLanguage;
+      if (language !== undefined) {
         text = location.state.selectedLanguage;
       } else {
         text = "Choose Language";
@@ -46,6 +43,23 @@ const ConvertedTextDetails = () => {
   const dropdown = languageArray.map((item) => (
     <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
   ));
+
+  const textToSpeech = () => {
+    fetch("api/text-to-speech/testAudio")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("inside text to speech fetch function");
+          setTextToSpeechUrl(result.url);
+          console.log(textToSpeechUrl);
+          let audio = new Audio(textToSpeechUrl);
+          audio.play();
+        },
+        (error) => {
+          console.log("error: " + error);
+        }
+      );
+  };
 
   return (
     <div>
@@ -134,8 +148,12 @@ const ConvertedTextDetails = () => {
               <Col>
                 <Row>
                   <Col>
-                    <Button style={{ marginLeft: "2.5rem" }} variant="dark">
-                      Text To Speech{" "}
+                    <Button
+                      style={{ marginLeft: "2.5rem" }}
+                      onClick={textToSpeech}
+                      variant="dark"
+                    >
+                      Text To Speech
                       <BsMicFill style={{ marginBottom: "0.3rem" }} />
                     </Button>
                   </Col>
