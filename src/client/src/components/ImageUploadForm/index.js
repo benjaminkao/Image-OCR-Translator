@@ -10,7 +10,6 @@ const ImageUploadForm = () => {
   // eslint-disable-next-line
   const [isChecked, setChecked] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-   const [languageArray, setLanguageArray] = useState([]);
   const [dropdownLanguages, setDropdownLanguages] = useState([]);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const ImageUploadForm = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          var tmp = []
+          var tmp = [];
           Object.keys(result.languages).map(function (key) {
             tmp.push(key);
           });
@@ -33,8 +32,7 @@ const ImageUploadForm = () => {
 
   const dropdown = dropdownLanguages.map((item) => (
     <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-    ));
-
+  ));
 
   const handlePhotoUpload = (event) => {
     if (event.target.files.length !== 0) {
@@ -68,6 +66,8 @@ const ImageUploadForm = () => {
         pathname: "/details",
         state: {
           imageData: uploaded_pic,
+          selectedLanguage: selectedLanguage,
+          dropdownLanguages: dropdownLanguages,
         },
       });
 
@@ -183,4 +183,3 @@ const ImageUploadForm = () => {
 };
 
 export default ImageUploadForm;
-

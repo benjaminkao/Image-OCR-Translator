@@ -3,6 +3,7 @@ import {
   Row,
   Col,
   InputGroup,
+  Form,
   FormControl,
   Dropdown,
   Button,
@@ -13,53 +14,30 @@ import { BsMicFill } from "react-icons/bs";
 
 const ConvertedTextDetails = () => {
   const [selectedLanguage, setSelectedLanguage] = useState();
+  const [tempData, setTempData] = useState(
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+  );
   const location = useLocation();
   //const width = "40px";
 
-  const languageArray = [
-    "Afrikaans",
-    "Albanian",
-    "Arabic",
-    "Azerbaijani",
-    "Basque",
-    "Belarusian",
-    "Bengali",
-    "Bosnian",
-    "Bulgarian",
-    "Catalan",
-    "Cebuano",
-    "Chichewa",
-    "Chinese",
-    "Corsican",
-    "Croatian",
-    "Czech",
-    "Danish",
-    "Dutch",
-    "English",
-    "Esperanto",
-    "Estonian",
-    "Filipino",
-    "Finnish",
-    "French",
-    "Frisian",
-    "Galician",
-    "German",
-    "Greek",
-    "Haitian Creole",
-    "Hausa",
-  ];
+  const languageArray = location.state.dropdownLanguages;
 
   const selectLanguage = (event) => {
     setSelectedLanguage(event);
     console.log("selected language is " + event);
   };
+
   const showLanguage = () => {
     let text = "";
 
     if (selectedLanguage !== undefined) {
       text = selectedLanguage;
     } else {
-      text = "Choose Language";
+      if (location.state.selectedLanguage !== null) {
+        text = location.state.selectedLanguage;
+      } else {
+        text = "Choose Language";
+      }
     }
 
     return text;
@@ -105,18 +83,35 @@ const ConvertedTextDetails = () => {
             style={{
               margin: "0 auto",
               width: "100%",
+              textAlign: "left",
+              marginLeft: "7rem",
             }}
           >
             <Row>
-              <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">
-                  Vision Api identified Text
-                </InputGroup.Text>
-                <FormControl
-                  aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default"
+              <Form.Group>
+                <Form.Label
+                  style={{
+                    color: "#000000",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    marginTop: "1rem",
+                  }}
+                >
+                  Vision API Identified Text
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  required
+                  className="input-field"
+                  style={{
+                    border: "1px",
+                    backgroundColor: "#bdc3c7",
+                  }}
+                  readOnly
+                  value={tempData}
                 />
-              </InputGroup>
+              </Form.Group>
             </Row>
             <Row style={{ marginTop: "1rem" }}>
               <Col>
@@ -148,15 +143,30 @@ const ConvertedTextDetails = () => {
               </Col>
             </Row>
             <Row style={{ marginTop: "2rem" }}>
-              <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">
+              <Form.Group>
+                <Form.Label
+                  style={{
+                    color: "#000000",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    marginTop: "1rem",
+                  }}
+                >
                   Translated Text
-                </InputGroup.Text>
-                <FormControl
-                  aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default"
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  required
+                  className="input-field"
+                  style={{
+                    border: "1px",
+                    backgroundColor: "#2ecc71",
+                  }}
+                  readOnly
+                  value={tempData}
                 />
-              </InputGroup>
+              </Form.Group>
             </Row>
           </div>
         </Col>
