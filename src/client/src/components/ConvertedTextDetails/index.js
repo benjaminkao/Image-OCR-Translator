@@ -10,8 +10,24 @@ const ConvertedTextDetails = () => {
   const [tempData, setTempData] = useState(
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
   );
+  const [buttonColor, setButtonColor] = useState("#7f8c8d");
   const location = useLocation();
   //const width = "40px";
+
+  useEffect(() => {
+    fetch("api/text-to-speech/testAudio")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("inside text to speech fetch function");
+          setTextToSpeechUrl(result.url);
+          console.log(textToSpeechUrl);
+        },
+        (error) => {
+          console.log("error: " + error);
+        }
+      );
+  }, []);
 
   let languageArray = [];
   if (location != undefined) {
@@ -45,20 +61,8 @@ const ConvertedTextDetails = () => {
   ));
 
   const textToSpeech = () => {
-    fetch("api/text-to-speech/testAudio")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("inside text to speech fetch function");
-          setTextToSpeechUrl(result.url);
-          console.log(textToSpeechUrl);
-          let audio = new Audio(textToSpeechUrl);
-          audio.play();
-        },
-        (error) => {
-          console.log("error: " + error);
-        }
-      );
+    let audio = new Audio(textToSpeechUrl);
+    audio.play();
   };
 
   return (
@@ -149,7 +153,9 @@ const ConvertedTextDetails = () => {
                 <Row>
                   <Col>
                     <Button
-                      style={{ marginLeft: "2.5rem" }}
+                      style={{
+                        marginLeft: "2.5rem",
+                      }}
                       onClick={textToSpeech}
                       variant="dark"
                     >
