@@ -10,20 +10,20 @@ const ImageUploadForm = () => {
   // eslint-disable-next-line
   const [isChecked, setChecked] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-  const [languageArray, setLanguageAray] = useState([]);
+   const [languageArray, setLanguageArray] = useState([]);
   const [dropdownLanguages, setDropdownLanguages] = useState([]);
 
   useEffect(() => {
-    setDropdownLanguages([]);
     fetch("api/text-to-speech/languages")
       .then((res) => res.json())
       .then(
         (result) => {
+          var tmp = []
           Object.keys(result.languages).map(function (key) {
-            dropdownLanguages.push(key);
+            tmp.push(key);
           });
-          console.log("dropdown language " + dropdownLanguages);
-          dropdown();
+
+          setDropdownLanguages(tmp);
         },
         (error) => {
           console.log("error: " + error);
@@ -31,12 +31,10 @@ const ImageUploadForm = () => {
       );
   }, []);
 
-  const dropdown = () => {
-    console.log("dropdown inside dropdown function is " + dropdownLanguages);
-    dropdownLanguages.map((item) => (
-      <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+  const dropdown = dropdownLanguages.map((item) => (
+    <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
     ));
-  };
+
 
   const handlePhotoUpload = (event) => {
     if (event.target.files.length !== 0) {
@@ -144,7 +142,7 @@ const ImageUploadForm = () => {
                 <Dropdown.Menu
                   style={{ maxHeight: "20rem", overflowY: "auto" }}
                 >
-                  {dropdown()}
+                  {dropdown}
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
@@ -185,3 +183,4 @@ const ImageUploadForm = () => {
 };
 
 export default ImageUploadForm;
+
