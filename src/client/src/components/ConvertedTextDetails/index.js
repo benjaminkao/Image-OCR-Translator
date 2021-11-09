@@ -3,6 +3,7 @@ import { Row, Col, Form, Dropdown, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import styles from "./index.module.css";
 import { BsMicFill } from "react-icons/bs";
+import Loader from "react-loader-spinner";
 
 const ConvertedTextDetails = () => {
   const [selectedLanguage, setSelectedLanguage] = useState();
@@ -11,22 +12,13 @@ const ConvertedTextDetails = () => {
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
   );
   const [buttonColor, setButtonColor] = useState("#7f8c8d");
+  const [loadingVisibility, setLoadingVisibility] = useState("hidden");
   const location = useLocation();
+
   //const width = "40px";
 
   useEffect(() => {
-    fetch("api/text-to-speech/testAudio")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("inside text to speech fetch function");
-          setTextToSpeechUrl(result.url);
-          console.log(textToSpeechUrl);
-        },
-        (error) => {
-          console.log("error: " + error);
-        }
-      );
+    textToSpeech();
   }, []);
 
   let languageArray = [];
@@ -61,13 +53,25 @@ const ConvertedTextDetails = () => {
   ));
 
   const textToSpeech = () => {
-    let audio = new Audio(textToSpeechUrl);
-    audio.play();
+    setLoadingVisibility("visible");
+    fetch("api/text-to-speech/testAudio")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("inside text to speech fetch function");
+          setTextToSpeechUrl(result.url);
+          console.log(textToSpeechUrl);
+          setLoadingVisibility("hidden");
+        },
+        (error) => {
+          console.log("error: " + error);
+        }
+      );
   };
 
   return (
     <div>
-      <Row>
+      <Row style={{ position: "relative" }}>
         <Col>
           <div style={{ position: "relative", top: "0", left: "0" }}>
             <img
@@ -156,7 +160,10 @@ const ConvertedTextDetails = () => {
                       style={{
                         marginLeft: "2.5rem",
                       }}
-                      onClick={textToSpeech}
+                      onClick={() => {
+                        let audio = new Audio(textToSpeechUrl);
+                        audio.play();
+                      }}
                       variant="dark"
                     >
                       Text To Speech
@@ -195,6 +202,15 @@ const ConvertedTextDetails = () => {
           </div>
         </Col>
       </Row>
+      <div
+        style={{
+          position: "absolute",
+          transform: "translate(450%, -250%)",
+          visibility: `${loadingVisibility}`,
+        }}
+      >
+        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+      </div>
     </div>
   );
 };
