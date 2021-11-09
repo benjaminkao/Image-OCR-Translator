@@ -7,6 +7,7 @@ let upload = multer();
 const TextToSpeechController = require('../controllers/TexttoSpeech').Controller;
 const ImageUploadController = require('../controllers/UploadToBucket');
 const TextFromImageController = require('../controllers/TextFromImage');
+const TranslationController = require('../controllers/Translate');
 
 /* GET home page. */
 router.get('/users', function(req, res, next) {
@@ -101,6 +102,11 @@ router.get('/text-to-speech/languages', (req, res, next) => {
     languages: languages
   });
 
+})
+
+router.get('/translate/test', (req, res, next) =>{
+  const returnVal = TranslationController.translateText('hello', 'spanish');
+  res.send(translations);
 })
 
 
