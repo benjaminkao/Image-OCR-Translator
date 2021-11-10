@@ -7,6 +7,7 @@ let upload = multer();
 const TextToSpeechController = require('../controllers/TexttoSpeech').Controller;
 const ImageUploadController = require('../controllers/UploadToBucket');
 const TextFromImageController = require('../controllers/TextFromImage');
+const TranslationController = require('../controllers/Translate');
 
 /* GET home page. */
 router.get('/users', function(req, res, next) {
@@ -20,7 +21,7 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
 
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
-  
+
 
   TextFromImageController.extractTextfromImage(req, res, next);
 
@@ -30,6 +31,15 @@ router.post('/uploadImage', upload.fields([]), (req, res, next) => {
     message: "Route is not implemented yet."
   });
 });
+
+//Run text-to-speech/test, then run uploadAudio/test
+router.post('/uploadAudio/test', (req, res, next) =>{
+  const filepath = '../testImage-English-GENERAL.mp3';
+  const filename = 'sample1357';
+  ImageUploadController.uploadFile(filepath, filename);
+
+  res.send("uploadAudio/test complete! Check bucket");
+})
 
 router.post('/text-to-speech', (req, res, next) => {
 
@@ -75,6 +85,13 @@ router.get('/text-to-speech/test', (req, res, next) => {
 
 });
 
+router.get('/text-to-speech/testAudio', (req, res, next) => {
+  res.send({
+    status: "success",
+    url: "https://storage.googleapis.com/audio-files-csc-847-project-3/test.mp3"
+  });
+})
+
 
 
 router.get('/text-to-speech/languages', (req, res, next) => {
@@ -85,6 +102,11 @@ router.get('/text-to-speech/languages', (req, res, next) => {
     languages: languages
   });
 
+})
+
+router.get('/translate/test', (req, res, next) =>{
+  const returnVal = TranslationController.translateText('hello', 'spanish');
+  res.send(translations);
 })
 
 
