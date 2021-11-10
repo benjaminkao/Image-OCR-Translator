@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var multer = require('multer');
-let upload = multer();
+// var multer = require('multer');
+// let upload = multer({dest: 'tmp/'});
+// var type = upload.single('file');
 
 const TextToSpeechController = require('../controllers/TexttoSpeech').Controller;
 const ImageUploadController = require('../controllers/UploadToBucket');
@@ -16,12 +17,11 @@ router.get('/users', function(req, res, next) {
 });
 
 
-router.post('/uploadImage', upload.fields([]), (req, res, next) => {
+router.post('/uploadImage', (req, res, next) => {
   //Need parameters from request object...
 
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
-
 
   TextFromImageController.extractTextfromImage(req, res, next);
 

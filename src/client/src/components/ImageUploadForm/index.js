@@ -90,7 +90,7 @@ const ImageUploadForm = () => {
       
       // // Get Image Data
       const imageData = document.querySelector('#formFile').files[0];
-      formData.append("file", uploaded_pic);
+      formData.append("file", imageData);
       formData.append("filename", imageData.name);
       const config = {
         headers: {

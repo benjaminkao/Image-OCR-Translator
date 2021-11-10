@@ -14,20 +14,23 @@ const Controller = {
     console.log("sending image to Vision API");
     // 
     // Extract the image and the image name from the req.body
-    const image = req.body.file
-    const imageName = req.body.filename
-    console.log(req.body);
+    const image = req.files.file
+    console.log(image.name);
+    console.log(image);
 
-    const newPicture = path.resolve('/tmp', req.body.filename);
+    const newPicture = path.resolve('./tmp', image.name);
+
+    console.log(newPicture);
     
-    await req.body.file.mv(newPicture);
+    await image.mv(newPicture);
 
     console.log('Image moved in temporary directory');
 
     // imageBucket
-      
+    console.log(path.resolve(newPicture));
+
     // https://cloud.google.com/vision/docs/ocr
-    const [result] = await vision.textDetection(newPicture);
+    const [result] = await vision.textDetection(path.resolve(newPicture));
 
     const fullTextAnnotation = results[0].fullTextAnnotation;
 
