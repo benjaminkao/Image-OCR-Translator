@@ -105,8 +105,10 @@ router.get('/text-to-speech/languages', (req, res, next) => {
 })
 
 router.get('/translate/test', (req, res, next) =>{
-  const returnVal = TranslationController.translateText('hello', 'spanish');
-  res.send(translations);
+  TranslationController.translateText('This is a test of the Translation API', 'es')
+    .then((result) => {
+      res.send(result);
+    })
 })
 
 
