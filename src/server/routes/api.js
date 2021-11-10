@@ -69,7 +69,7 @@ router.get('/text-to-speech/test', (req, res, next) => {
 
   console.log("Testing the Text-to-Speech API.");
 
-  TextToSpeechController.makeRequest("testImage", "This is a test of the text-to-speech API", "English")
+  TextToSpeechController.makeRequest("testImage", "This is a test of the text-to-speech API", "Japanese")
     .then((url) => {
       res.send({
         status: "success",
@@ -105,8 +105,10 @@ router.get('/text-to-speech/languages', (req, res, next) => {
 })
 
 router.get('/translate/test', (req, res, next) =>{
-  const returnVal = TranslationController.translateText('hello', 'spanish');
-  res.send(translations);
+  TranslationController.translateText('This is a test of the Translation API', 'es')
+    .then((result) => {
+      res.send(result);
+    })
 })
 
 

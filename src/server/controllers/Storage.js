@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const storage = require('./ApiConnections').storage;
 
-
 const imageBucket = storage.bucket(process.env.IMAGE_BUCKET);
 const audioBucket = storage.bucket(process.env.AUDIO_BUCKET);
 
@@ -27,13 +26,18 @@ const Controller = {
             })
         }
         console.log(`Uploading ${audioPath} to Google Cloud Storage`);
-        console.log(audioBucket.name);
 
-        audioBucket.upload(audioPath, {resumable: false})
+        audioBucket.upload(audioPath, {
+            name: audioPath,
+            destination: audioPath,
+            resumable: true,
+            contentType: "audio/mpeg"
+          })
             .then((result) => {
                 console.log("Completed");
             })
             .catch((err) => {
+                console.log("got here");
                 console.log(err);
                 throw err;
             })
@@ -65,4 +69,5 @@ const Controller = {
 
 
 
-module.exports = {Controller, imageBucket};
+// module.exports = {Controller, imageBucket};
+module.exports = {Controller}

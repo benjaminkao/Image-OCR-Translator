@@ -18,7 +18,7 @@ module.exports = {
   translations = Array.isArray(translations) ? translations : [translations];
   console.log('Translations:');
   translations.forEach((translation, i) => {
-    console.log(`${text[i]} => (${target}) ${translation}`);
+    console.log(`${text[i]} => (${language}) ${translation}`);
   });
 
   return translations;

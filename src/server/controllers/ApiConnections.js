@@ -9,14 +9,11 @@ const Vision = require('@google-cloud/vision');
 
 var storage, textToSpeech, translate, vision;
 
-console.log(path.join(__dirname, "../../../hidden.json"));
-
 var stats = fs.existsSync("../../hidden.json");
 console.log("Stats: " + stats);
 
 if(stats) {
     storage = new Storage({
-        keyFileName: '../../hidden.json'
     });
 
     textToSpeech = new TextToSpeech.TextToSpeechClient({
