@@ -50,16 +50,16 @@ const Controller = {
     // Placeholder
     // Translate.translateText(results from the vision API)
 
-   
+  
+    // //Store the image in a cloud bucket
+    // StorageController.uploadImage(image);
 
+    // // Send response back
+    // var jsonResponse = {};
+    // jsonResponse.fulltext = fullTextAnnotation.text;
+    // res.send(jsonResponse);
 
-    //Store the image in a cloud bucket
-    StorageController.uploadImage(image);
-
-    // Send response back
-    var jsonResponse = {};
-    jsonResponse.fulltext = fullTextAnnotation.text;
-    res.send(jsonResponse);
+    return result;
 
   }
 }
