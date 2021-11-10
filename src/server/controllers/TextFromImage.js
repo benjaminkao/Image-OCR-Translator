@@ -5,23 +5,21 @@ const imageBucket = require('./Storage').imageBucket
 
 
 //Edit the bucket name
-const bucketName = 'ENTER_BUCKET_NAME';
-
+const bucketName = 'image-csc847';
 
 const Controller = {
 
   extractTextfromImage: async (req, res, next) => {
     // console.log('testing:' + req.body.test1);
     console.log("sending image to Vision API");
-
+    // 
     // Extract the image and the image name from the req.body
-    // req.body.file
-    // req.body.filename
+    const image = req.body.file
+    const imageName = req.body.filename
     console.log(req.body);
-    
 
     const newPicture = path.resolve('/tmp', req.body.filename);
-
+    
     await req.body.file.mv(newPicture);
 
     console.log('Image moved in temporary directory');
@@ -35,6 +33,9 @@ const Controller = {
 
     // Print to console the vision API results
 
+    console.log('Text:');
+    fullTextAnnotation.forEach(text => console.log(text));
+
 
     // Prepare Response
     // - text identified
@@ -46,22 +47,18 @@ const Controller = {
     // Placeholder
     // Translate.translateText(results from the vision API)
 
+   
+
+
+    //Store the image in a cloud bucket
+    StorageController.uploadImage(image);
+
+    // Send response back
     var jsonResponse = {};
     jsonResponse.fulltext = fullTextAnnotation.text;
     res.send(jsonResponse);
 
-
-    // Store the image in a cloud bucket
-    // StorageController.uploadImage(image);
-
-
-
-    // Send response back
-
   }
-
-
-
 }
 
 
@@ -69,13 +66,17 @@ const Controller = {
 
 module.exports = Controller;
 
+const filename1 = "/home/nidjyani/CSC847-Project-3-Group-3/src/server/uploads/imagefile.jpg"
 // module.exports = {
 //   // Performs text detection on the local file
-//   // async ImageToText(filename){
-//   //   const [result] = await client.textDetection(`gs://${bucketName}/${fileName}`);
-//   //   const detections = result.textAnnotations;
-//   //   console.log('Text:');
-//   //   detections.forEach(text => console.log(text));
-//   // }
+//   async ImageToText(filename){
+//     const client = new vision.ImageAnnotatorClient()
+
+//     // const [result] = await client.textDetection(`gs://${bucketName}/${fileName}`);
+//     const [result] = await client.textDetection("/home/nidjyani/CSC847-Project-3-Group-3/src/server/uploads/imagefile.jpg");
+//     const detections = result.textAnnotations;
+//     console.log('Text:');
+//     detections.forEach(text => console.log(text));
+//   }
 
 // }

@@ -22,10 +22,7 @@ app.use(cookieParser());
 
 
 app.use('/api', apiRouter);
-app.use('/upload', uploadRouter)
-
-
-
+//app.use('/upload', uploadRouter)
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 
