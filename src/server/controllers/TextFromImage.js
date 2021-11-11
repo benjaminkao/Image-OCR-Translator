@@ -32,7 +32,7 @@ const Controller = {
     // https://cloud.google.com/vision/docs/ocr
     const [result] = await vision.textDetection(path.resolve(newPicture));
 
-    const fullTextAnnotation = results[0].fullTextAnnotation;
+    const fullTextAnnotation = result.textAnnotations;
 
     // Print to console the vision API results
 

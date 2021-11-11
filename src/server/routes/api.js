@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 // var multer = require('multer');
@@ -11,24 +11,36 @@ const TextFromImageController = require('../controllers/TextFromImage');
 const TranslationController = require('../controllers/Translate');
 
 /* GET home page. */
-router.get('/users', function(req, res, next) {
+router.get("/users", function (req, res, next) {
   console.log('get "users" route hit');
   res.send({ users: ["joe", "bernie", "tulsi", "donald", "bill"] });
 });
 
 
-router.post('/uploadImage', (req, res, next) => {
+router.post('/uploadImage', async (req, res, next) => {
   //Need parameters from request object...
 
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
 
-  TextFromImageController.extractTextfromImage(req, res, next);
+  // Get the results from the Vision API
+  var result = await TextFromImageController.extractTextfromImage(req, res, next);
 
-  console.log("ERROR: NOT IMPLEMENTED YET");
+
+  // Send the results to the Translate API and get those results
+
+
+
+  // Send the results to the Text-to-Speech API and get those results
+
+
+  // Build the response object
+
+
+  // Send the response
   res.send({
-    status: "Failure",
-    message: "Route is not implemented yet."
+    status: "success",
+    result: result,
   });
 });
 
@@ -41,30 +53,29 @@ router.post('/uploadAudio/test', (req, res, next) =>{
   res.send("uploadAudio/test complete! Check bucket");
 })
 
-router.post('/text-to-speech', (req, res, next) => {
 
+router.post("/text-to-speech", (req, res, next) => {
   // TODO: Need to get these parameters from the request object:
   // - imageName
   // - text
   // - selected language
 
-
   TextToSpeechController.makeRequest()
     .then((url) => {
       res.send({
         status: "success",
-        url: url
+        url: url,
       });
     })
     .catch((err) => {
       res.send({
         status: "failure",
-        message: err.message
+        message: err.message,
       });
     });
 });
 
-router.get('/text-to-speech/test', (req, res, next) => {
+router.get("/text-to-speech/test", (req, res, next) => {
   // Test Route for Text-to-Speech API
 
   console.log("Testing the Text-to-Speech API.");
@@ -73,16 +84,15 @@ router.get('/text-to-speech/test', (req, res, next) => {
     .then((url) => {
       res.send({
         status: "success",
-        url: url
+        url: url,
       });
     })
     .catch((err) => {
       res.send({
         status: "failure",
-        message: err.message
-      })
+        message: err.message,
+      });
     });
-
 });
 
 router.get('/text-to-speech/testAudio', (req, res, next) => {
@@ -93,13 +103,12 @@ router.get('/text-to-speech/testAudio', (req, res, next) => {
 })
 
 
-
-router.get('/text-to-speech/languages', (req, res, next) => {
+router.get("/text-to-speech/languages", (req, res, next) => {
   const languages = TextToSpeechController.listLanguages();
 
   res.send({
     status: "success",
-    languages: languages
+    languages: languages,
   });
 
 })
@@ -115,9 +124,6 @@ router.get('/translate/test', (req, res, next) =>{
 
 module.exports = router;
 
-
-
-
 // var storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
 //         cb(null, 'uploads/')
@@ -127,7 +133,6 @@ module.exports = router;
 //     }
 // });
 // var upload = multer({ storage: storage });
-
 
 // router.get('/', upload.single('imagefile'), function(req, res, next) {
 //     extractTextfromImage(req, res);

@@ -1,31 +1,30 @@
-const textToSpeech = require('@google-cloud/text-to-speech');
-const fs = require('fs');
-const util = require('util');
+const textToSpeech = require("@google-cloud/text-to-speech");
+const fs = require("fs");
+const util = require("util");
 
-const client = require('./ApiConnections').textToSpeech;
-const StorageController = require('./Storage').Controller;
+const client = require("./ApiConnections").textToSpeech;
+const StorageController = require("./Storage").Controller;
 
 const LanguageCodes = {
-    // Need to figure out issues with language codes and language names
-    // (language names are not descriptive enough so we may just have to pick and choose the languages we want)
-    Arabic: "ar-XA",
-    English: "en-US",
-    French: "fr-FR",
-    German: "de-DE",
-    Hindi: "hi-IN",
-    Italian: "it-IT",
-    Japanese: "ja-JP",
-    Korean: "ko-KR",
-    Mandarin: "cmn-CN",
-    Spanish: "es-ES",
-}
+  // Need to figure out issues with language codes and language names
+  // (language names are not descriptive enough so we may just have to pick and choose the languages we want)
+  Arabic: "ar-XA",
+  English: "en-US",
+  French: "fr-FR",
+  German: "de-DE",
+  Hindi: "hi-IN",
+  Italian: "it-IT",
+  Japanese: "ja-JP",
+  Korean: "ko-KR",
+  Mandarin: "cmn-CN",
+  Spanish: "es-ES",
+};
 
 const VoiceGender = {
-    FEMALE: "FEMALE",
-    MALE: "MALE",
-    GENERAL: "SSML_VOICE_GENDER_UNSPECIFIED"
-}
-
+  FEMALE: "FEMALE",
+  MALE: "MALE",
+  GENERAL: "SSML_VOICE_GENDER_UNSPECIFIED",
+};
 
 const Controller = {
     listLanguages: () => {
@@ -109,8 +108,6 @@ const Controller = {
         return StorageController.getAudioURL(fileName);
     }
 
-}
+};
 
-
-
-module.exports = {Controller, VoiceGender, LanguageCodes};
+module.exports = { Controller, VoiceGender, LanguageCodes };

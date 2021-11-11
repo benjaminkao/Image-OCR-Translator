@@ -5,7 +5,6 @@ const storage = require('./ApiConnections').storage;
 const imageBucket = storage.bucket(process.env.IMAGE_BUCKET);
 const audioBucket = storage.bucket(process.env.AUDIO_BUCKET);
 
-
 const Controller = {
 
     uploadImage: async (imagePath) => {

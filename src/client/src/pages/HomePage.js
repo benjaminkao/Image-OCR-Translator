@@ -7,7 +7,7 @@ const HomePage = () => {
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>CSC 847 Group 3</title>
+        <title>PhoText - upload Image</title>
         <meta
           name="description"
           content="This website is made for CSC 847 Group 3 Project"

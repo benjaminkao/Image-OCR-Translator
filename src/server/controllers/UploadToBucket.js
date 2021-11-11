@@ -1,12 +1,12 @@
 // Imports the Google Cloud client library
-const {Storage} = require('@google-cloud/storage');
+const { Storage } = require("@google-cloud/storage");
 
 // Creates a client
 const storage = new Storage({
-    keyFilename: "../../hidden.json"
+  keyFilename: "../../hidden.json",
 });
 //Edit the bucket name
-const bucketName = 'ENTER_BUCKET_NAME';
+const bucketName = "ENTER_BUCKET_NAME";
 
 module.exports = {
   async uploadFile(filePath, fileName) {
@@ -18,5 +18,5 @@ module.exports = {
     });
 
     console.log(`${filePath} uploaded to ${bucketName}`);
-  }
-}
+  },
+};

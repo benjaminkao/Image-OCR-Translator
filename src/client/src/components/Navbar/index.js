@@ -15,8 +15,16 @@ const Navbar = ({ toggle }) => {
     <IconContext.Provider value={{ color: "#272343" }}>
       <Nav>
         <NavbarContainer>
-          <MobileIcon onClick={toggle}>
-            <FaBars />
+          <MobileIcon>
+            <h1
+              style={{
+                color: "#27ae60",
+                fontFamily: "Mochiy Pop One, sans-serif",
+                fontWeight: "bold",
+              }}
+            >
+              PhoText
+            </h1>
           </MobileIcon>
           <NavMenu>
             <NavItem>

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 
 const ImageUploadForm = () => {
   let history = useHistory();
@@ -9,43 +8,29 @@ const ImageUploadForm = () => {
   // eslint-disable-next-line
   const [selectedLanguage, setSelectedLanguage] = useState();
   // eslint-disable-next-line
-  const [isChecked, setChecked] = useState(false);
+  // const [isChecked, setChecked] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const [dropdownLanguages, setDropdownLanguages] = useState([]);
 
-  const languageArray = [
-    "Afrikaans",
-    "Albanian",
-    "Arabic",
-    "Azerbaijani",
-    "Basque",
-    "Belarusian",
-    "Bengali",
-    "Bosnian",
-    "Bulgarian",
-    "Catalan",
-    "Cebuano",
-    "Chichewa",
-    "Chinese",
-    "Corsican",
-    "Croatian",
-    "Czech",
-    "Danish",
-    "Dutch",
-    "English",
-    "Esperanto",
-    "Estonian",
-    "Filipino",
-    "Finnish",
-    "French",
-    "Frisian",
-    "Galician",
-    "German",
-    "Greek",
-    " Haitian Creole",
-    "Hausa",
-  ];
+  useEffect(() => {
+    fetch("api/text-to-speech/languages")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          var tmp = [];
+          Object.keys(result.languages).map(function (key) {
+            tmp.push(key);
+          });
 
-  const dropdown = languageArray.map((item) => (
+          setDropdownLanguages(tmp);
+        },
+        (error) => {
+          console.log("error: " + error);
+        }
+      );
+  }, []);
+
+  const dropdown = dropdownLanguages.map((item) => (
     <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
   ));
 
@@ -60,18 +45,17 @@ const ImageUploadForm = () => {
     console.log("selected language is " + event);
   };
 
-  const isSpeechtoText = (event) => {
-    console.log("isChecked: " + event.target.checked);
-    setChecked(event.target.checked);
-  };
+  // const isSpeechtoText = (event) => {
+  //   console.log("isChecked: " + event.target.checked);
+  //   setChecked(event.target.checked);
+  // };
 
   const handleSubmit = () => {
     console.log("handle submit clicked");
 
     // This is where frontend makes request to backend
-    console.log("Selected langauge is: " + selectedLanguage)
+    console.log("Selected langauge is: " + selectedLanguage);
     console.log("Image: " + uploaded_pic);
-
 
     if (uploaded_pic === undefined) {
       alert("Please upload a pic");
@@ -82,16 +66,18 @@ const ImageUploadForm = () => {
         pathname: "/details",
         state: {
           imageData: uploaded_pic,
+          selectedLanguage: selectedLanguage,
+          dropdownLanguages: dropdownLanguages,
         },
       });
 
-
       const formData = new FormData();
-      
+
       // // Get Image Data
       const imageData = document.querySelector('#formFile').files[0];
       formData.append("file", imageData);
       formData.append("filename", imageData.name);
+      formData.append("language", selectedLanguage);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
@@ -101,18 +87,18 @@ const ImageUploadForm = () => {
       console.log(formData);
       console.log(formData.get("file"));
 
-      fetch("/api/uploadImage",{
+      fetch("/api/uploadImage", {
         method: "POST",
-        body: formData
+        body: formData,
       })
-      .then((response) => {
+        .then((response) => {
           console.log(response);
           alert("Succesfully uploaded image");
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           alert(error);
           console.log(error);
-      });
+        });
     }
   };
 
@@ -132,7 +118,7 @@ const ImageUploadForm = () => {
     <div style={{ padding: "2rem" }}>
       <Row>
         <h1>
-          Upload a pic and get the text translated to your preferred language!
+          Upload a photo and get the text translated to your preferred language!
         </h1>
       </Row>
       <Row style={{ marginTop: "2rem" }}>
@@ -148,7 +134,12 @@ const ImageUploadForm = () => {
           </Form>
 
           <Row>
-            <Col>
+            <Col xs={3}>
+            <h5>
+              Translate to:
+            </h5>
+            </Col>
+            <Col xs={5}>
               <Dropdown onSelect={selectLanguage}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                   {showLanguage()}
@@ -165,11 +156,11 @@ const ImageUploadForm = () => {
           <Row style={{ marginTop: "1rem" }}>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check
+                {/* <Form.Check
                   type="checkbox"
                   onChange={isSpeechtoText}
                   label="Text to speech"
-                />
+                /> */}
               </Form.Group>
             </Form>
           </Row>
