@@ -23,13 +23,20 @@ router.post('/uploadImage', (req, res, next) => {
   //Then upload file to bucket
   //ImageUploadController.upload(filename, filepath);
 
-  TextFromImageController.extractTextfromImage(req, res, next);
+  const words_bag = TextFromImageController.extractTextfromImage(req, res, next);
 
-  console.log("ERROR: NOT IMPLEMENTED YET");
+  // console.log("ERROR: NOT IMPLEMENTED YET");
+
+  // Need to implement usage for words_bag
   res.send({
-    status: "Failure",
-    message: "Route is not implemented yet."
+    status: "success",
+    languages: words_bag
   });
+
+//   res.send({
+//     status: "Failure",
+//     message: "Route is not implemented yet."
+//   });
 });
 
 //Run text-to-speech/test, then run uploadAudio/test
