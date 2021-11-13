@@ -21,10 +21,9 @@ router.post('/uploadImage', async (req, res, next) => {
   //Need parameters from request object...
 
   //Then upload file to bucket
-  //ImageUploadController.upload(filename, filepath);
 
   // Get the results from the Vision API
-  var result = await TextFromImageController.extractTextfromImage(req, res, next);
+  var words_bag = TextFromImageController.extractTextfromImage(req, res, next);
 
 
   // Send the results to the Translate API and get those results
@@ -38,10 +37,17 @@ router.post('/uploadImage', async (req, res, next) => {
 
 
   // Send the response
+
+  
+
+  // console.log("ERROR: NOT IMPLEMENTED YET");
+
+  // Need to implement usage for words_bag
   res.send({
     status: "success",
-    result: result,
+    languages: words_bag
   });
+
 });
 
 //Run text-to-speech/test, then run uploadAudio/test
