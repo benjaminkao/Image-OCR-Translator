@@ -8,9 +8,8 @@ import Loader from "react-loader-spinner";
 const ConvertedTextDetails = () => {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [textToSpeechUrl, setTextToSpeechUrl] = useState();
-  const [tempData, setTempData] = useState(
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-  );
+  const [textData, setTextData] = useState();
+  const [translatedData, setTranslatedData] = useState();
   const [buttonColor, setButtonColor] = useState("#7f8c8d");
   const [loadingVisibility, setLoadingVisibility] = useState("hidden");
   const location = useLocation();
@@ -18,8 +17,9 @@ const ConvertedTextDetails = () => {
   //const width = "40px";
 
   useEffect(() => {
-    textToSpeech();
-  }, []);
+    loadPage()
+  }, [])
+
 
   let languageArray = [];
   if (location != undefined) {
@@ -29,7 +29,38 @@ const ConvertedTextDetails = () => {
   const selectLanguage = (event) => {
     setSelectedLanguage(event);
     console.log("selected language is " + event);
+    setLoadingVisibility("visible");
+
+    const formData = new FormData();
+
+    formData.append("language", event);
+    formData.append("filename", location.state.imageName);
+    formData.append("text", textData);
+
+
+    fetch("api/translate", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setTranslatedData(result.translated.join('\n'));
+          setTextToSpeechUrl(result.url);
+          setLoadingVisibility("hidden");
+        },
+        (error) => {
+          console.log("Error: " + error);
+        }
+      );
   };
+
+  const loadPage = () => {
+    setTextData(location.state.textData);
+    setTranslatedData(location.state.translatedData);
+    setTextToSpeechUrl(location.state.textToSpeechUrl);
+  }
+
 
   const showLanguage = () => {
     let text = "";
@@ -52,22 +83,22 @@ const ConvertedTextDetails = () => {
     <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
   ));
 
-  const textToSpeech = () => {
-    setLoadingVisibility("visible");
-    fetch("api/text-to-speech/testAudio")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("inside text to speech fetch function");
-          setTextToSpeechUrl(result.url);
-          console.log(textToSpeechUrl);
-          setLoadingVisibility("hidden");
-        },
-        (error) => {
-          console.log("error: " + error);
-        }
-      );
-  };
+  // const textToSpeech = () => {
+  //   setLoadingVisibility("visible");
+  //   fetch("api/text-to-speech/testAudio")
+  //     .then((res) => res.json())
+  //     .then(
+  //       (result) => {
+  //         console.log("inside text to speech fetch function");
+  //         setTextToSpeechUrl(result.url);
+  //         console.log(textToSpeechUrl);
+  //         setLoadingVisibility("hidden");
+  //       },
+  //       (error) => {
+  //         console.log("error: " + error);
+  //       }
+  //     );
+  // };
 
   return (
     <div>
@@ -76,9 +107,12 @@ const ConvertedTextDetails = () => {
           <div style={{ position: "relative", top: "0", left: "0" }}>
             <img
               style={{
-                maxHeight: "30rem",
-                maxWidth: "30rem",
+                maxHeight: "50rem",
+                maxWidth: "50rem",
+                height: "100%",
+                width: "100%",
                 position: "relative",
+                objectFit: "contain",
                 top: "0",
                 left: "0",
               }}
@@ -131,7 +165,7 @@ const ConvertedTextDetails = () => {
                     backgroundColor: "#bdc3c7",
                   }}
                   readOnly
-                  value={tempData}
+                  value={textData}
                 />
               </Form.Group>
             </Row>
@@ -195,7 +229,7 @@ const ConvertedTextDetails = () => {
                     backgroundColor: "#2ecc71",
                   }}
                   readOnly
-                  value={tempData}
+                  value={translatedData}
                 />
               </Form.Group>
             </Row>

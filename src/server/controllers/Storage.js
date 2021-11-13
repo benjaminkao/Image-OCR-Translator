@@ -11,6 +11,11 @@ const Controller = {
         console.log(`Uploading ${imagePath} to Google Cloud Storage`);
         await imageBucket.upload(imagePath, {resumable: false});
 
+        unlink(imagePath, (err) => {
+            if (err) throw err;
+            console.log(`successfully deleted ${imagePath}`);
+          });
+
     },
     uploadAudio: async (audioPath) => {
         
@@ -39,7 +44,14 @@ const Controller = {
                 console.log("got here");
                 console.log(err);
                 throw err;
-            })
+            });
+        
+
+            unlink(imagePath, (err) => {
+                if (err) throw err;
+                console.log(`successfully deleted ${imagePath}`);
+              });
+        
 
     },
     getImage: async (fileName) => {

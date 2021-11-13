@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import Loader from "react-loader-spinner";
+
 
 const ImageUploadForm = () => {
   let history = useHistory();
@@ -11,6 +13,7 @@ const ImageUploadForm = () => {
   // const [isChecked, setChecked] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [dropdownLanguages, setDropdownLanguages] = useState([]);
+  const [loadingVisibility, setLoadingVisibility] = useState("hidden");
 
   useEffect(() => {
     fetch("api/text-to-speech/languages")
@@ -51,6 +54,7 @@ const ImageUploadForm = () => {
   // };
 
   const handleSubmit = () => {
+
     console.log("handle submit clicked");
 
     // This is where frontend makes request to backend
@@ -62,14 +66,7 @@ const ImageUploadForm = () => {
     } else if (selectedLanguage === undefined || selectLanguage === "") {
       alert("Please choose a language you wish to convert the text to.");
     } else {
-      history.push({
-        pathname: "/details",
-        state: {
-          imageData: uploaded_pic,
-          selectedLanguage: selectedLanguage,
-          dropdownLanguages: dropdownLanguages,
-        },
-      });
+      setLoadingVisibility("visible");
 
       const formData = new FormData();
 
@@ -91,9 +88,27 @@ const ImageUploadForm = () => {
         method: "POST",
         body: formData,
       })
+        .then((response) => response.json())
         .then((response) => {
           console.log(response);
+          setLoadingVisibility("hidden");
           alert("Succesfully uploaded image");
+          console.log(response.text.join("\n"));
+          console.log(response.translated.join("\n"));
+          console.log(response.audio);
+
+          history.push({
+            pathname: "/details",
+            state: {
+              imageData: uploaded_pic,
+              imageName: imageData.name,
+              selectedLanguage: selectedLanguage,
+              dropdownLanguages: dropdownLanguages,
+              textData: response.text.join("\n"),
+              translatedData: response.translated.join("\n"),
+              textToSpeechUrl: response.audio,
+            },
+          });
         })
         .catch((error) => {
           alert(error);
@@ -184,6 +199,15 @@ const ImageUploadForm = () => {
           Convert Image Text
         </Button>
       </Row>
+      <div
+        style={{
+          position: "absolute",
+          transform: "translate(450%, -250%)",
+          visibility: `${loadingVisibility}`,
+        }}
+      >
+        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+      </div>
     </div>
   );
 };

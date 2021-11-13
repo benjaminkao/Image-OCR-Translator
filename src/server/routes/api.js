@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const path = require('path');
 
 // var multer = require('multer');
 // let upload = multer({dest: 'tmp/'});
@@ -9,6 +10,7 @@ const TextToSpeechController = require('../controllers/TexttoSpeech').Controller
 const ImageUploadController = require('../controllers/UploadToBucket');
 const TextFromImageController = require('../controllers/TextFromImage');
 const TranslationController = require('../controllers/Translate');
+const StorageController = require('../controllers/Storage').Controller;
 
 /* GET home page. */
 router.get("/users", function (req, res, next) {
@@ -20,35 +22,80 @@ router.get("/users", function (req, res, next) {
 router.post('/uploadImage', async (req, res, next) => {
   //Need parameters from request object...
 
+  const language = req.body.language;
+
   //Then upload file to bucket
+  // Extract the image and the image name from the req.body
+  const image = req.files.file
+  console.log(image.name);
+  // console.log(image);
+
+  const newPicture = path.resolve('./uploads', image.name);
+
+  console.log(newPicture);
+  console.log("moving image");
+  await image.mv(newPicture);
+
+  console.log('Image moved in temporary directory');
+
+
+  // Upload image to Google Cloud Storage bucket
+  console.log('Uploading image to Google Cloud Storage Bucket');
+  StorageController.uploadImage(newPicture);
+
+  console.log(path.resolve(newPicture));
 
   // Get the results from the Vision API
-  var words_bag = TextFromImageController.extractTextfromImage(req, res, next);
+  var words_bag = await TextFromImageController.extractTextfromImage(newPicture);
 
 
   // Send the results to the Translate API and get those results
+  var translated_words = await TranslationController.translateText(words_bag, language);
 
-
+  console.log(translated_words)
 
   // Send the results to the Text-to-Speech API and get those results
+  var url = await TextToSpeechController.makeRequest(image.name, translated_words.join('. '), language); 
 
-
-  // Build the response object
-
-
-  // Send the response
-
-  
-
-  // console.log("ERROR: NOT IMPLEMENTED YET");
+  console.log(url);
 
   // Need to implement usage for words_bag
   res.send({
     status: "success",
-    languages: words_bag
+    text: words_bag,
+    translated: translated_words,
+    audio: url
   });
 
 });
+
+router.post('/translate', async (req, res, next) => {
+  console.log(req.body);
+
+  // Get Request parameters
+  const language = req.body.language;
+  const imageName = req.body.filename;
+  const text = req.body.text.split('\n');
+
+  console.log(text);
+
+  // Send text and language to Translate API
+
+  var translated_words = await TranslationController.translateText(text, language);
+
+  // Send translated text to Text-to-Speech API
+
+  var url = await TextToSpeechController.makeRequest(imageName, translated_words.join('. '), language); 
+
+  console.log(url);
+
+  res.send({
+    status: "success",
+    translated: translated_words,
+    url: url
+  });
+});
+
 
 //Run text-to-speech/test, then run uploadAudio/test
 router.post('/uploadAudio/test', (req, res, next) =>{

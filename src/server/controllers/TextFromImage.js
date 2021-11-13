@@ -1,5 +1,5 @@
 const vision = require('./ApiConnections').vision;
-const StorageController = require('./Storage').Controller;
+
 const path = require('path');
 const imageBucket = require('./Storage').imageBucket
 
@@ -8,34 +8,17 @@ const imageBucket = require('./Storage').imageBucket
 const bucketName = 'image-csc847';
 
 const Controller = {
-
-  extractTextfromImage: async (req, res, next) => {
+  /**
+   * 
+   * @param {string} imagePath Relative path of the image
+   * @returns 
+   */
+  extractTextfromImage: async (imagePath) => {
     // console.log('testing:' + req.body.test1);
     console.log("sending image to Vision API");
-    // 
-    // Extract the image and the image name from the req.body
-    const image = req.files.file
-    console.log(image.name);
-    console.log(image);
-
-    const newPicture = path.resolve('./uploads', image.name);
-
-    console.log(newPicture);
-    console.log("moving image");
-    await image.mv(newPicture);
-
-    console.log('Image moved in temporary directory');
-
-
-    // Upload image to Google Cloud Storage bucket
-    console.log('Uploading image to Google Cloud Storage Bucket');
-    StorageController.uploadImage(newPicture);
-
-    // imageBucket
-    console.log(path.resolve(newPicture));
 
     // https://cloud.google.com/vision/docs/ocr
-    const [result] = await vision.textDetection(path.resolve(newPicture));
+    const [result] = await vision.textDetection(path.resolve(imagePath));
 
     const detections = result.textAnnotations;
 
