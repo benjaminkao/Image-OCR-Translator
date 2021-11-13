@@ -9,7 +9,7 @@ const Vision = require('@google-cloud/vision');
 
 var storage, textToSpeech, translate, vision;
 
-var stats = fs.existsSync("../../hidden.json");
+var stats = fs.existsSync("./hidden.json");
 console.log("Stats: " + stats);
 
 if(stats) {
@@ -17,15 +17,15 @@ if(stats) {
     });
 
     textToSpeech = new TextToSpeech.TextToSpeechClient({
-        keyFilename: "../../hidden.json"
+        keyFilename: "./hidden.json"
     });
 
     translate = new Translate({
-        keyFileName: "../../hidden.json"
+        keyFileName: "./hidden.json"
     });
 
     vision = new Vision.ImageAnnotatorClient({
-        keyFilename: "../../hidden.json"
+        keyFilename: "./hidden.json"
     });
 
 } else {

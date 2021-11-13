@@ -11,19 +11,8 @@ const Controller = {
         console.log(`Uploading ${imagePath} to Google Cloud Storage`);
         await imageBucket.upload(imagePath, {resumable: false});
 
-        fs.unlink(imagePath, (err) => {
-            if (err) throw err;
-            
-
-            var stat = fs.existsSync(imagePath);
-
-            if(!stat) {
-                console.log(`successfully deleted ${imagePath}`);
-            }
-          });
-
     },
-    uploadAudio: async (audioPath) => {
+    uploadAudio: async (audioPath, audioName) => {
         
 
         var stats = fs.existsSync(audioPath);
@@ -38,8 +27,8 @@ const Controller = {
         console.log(`Uploading ${audioPath} to Google Cloud Storage`);
 
         audioBucket.upload(audioPath, {
-            name: audioPath,
-            destination: audioPath,
+            name: audioName,
+            destination: audioName,
             resumable: true,
             contentType: "audio/mpeg"
           })
@@ -52,16 +41,6 @@ const Controller = {
                 throw err;
             });
         
-
-            fs.unlink(audioPath, (err) => {
-                if (err) throw err;
-                
-                var stat = fs.existsSync(audioPath);
-
-                if(!stat) {
-                    console.log(`successfully deleted ${audioPath}`);
-                }
-              });
         
 
     },

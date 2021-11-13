@@ -1,0 +1,15 @@
+runtime: nodejs16
+
+env_variables:
+  IMAGE_BUCKET: uploaded-pictures-csc-847-project-3
+  AUDIO_BUCKET: audio-files-csc-847-project-3
+
+handlers:
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /.*
+    secure: always
+    script: auto
+  

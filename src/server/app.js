@@ -27,13 +27,13 @@ app.use(fileUpload());
 app.use('/api', apiRouter);
 //app.use('/upload', uploadRouter)
 
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "./build")));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get("/*", (req, res) => {
   console.log("req.path", req.path);
-  res.sendFile(path.join(__dirname + "../client/build/index.html"));
+  res.sendFile(path.join(__dirname + "./build/index.html"));
 });
 
 

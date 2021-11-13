@@ -30,7 +30,7 @@ router.post('/uploadImage', async (req, res, next) => {
   console.log(image.name);
   // console.log(image);
 
-  const newPicture = path.resolve('./uploads', image.name);
+  const newPicture = path.resolve('/tmp', image.name);
 
   console.log(newPicture);
   console.log("moving image");

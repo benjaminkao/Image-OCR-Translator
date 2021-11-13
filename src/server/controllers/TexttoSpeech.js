@@ -94,13 +94,13 @@ const Controller = {
         // Write the binary audio content to a local file
 
         const writeFile = util.promisify(fs.writeFile);
-        await writeFile(`${fileName}.mp3`, response.audioContent, 'binary');
-        console.log(`Audio content written to file: ${fileName}.mp3`);
+        await writeFile(`/tmp/${fileName}.mp3`, response.audioContent, 'binary');
+        console.log(`Audio content written to file: /tmp/${fileName}.mp3`);
 
 
         // Store the newly created audio file into a Google Cloud Storage Bucket
         try{
-            StorageController.uploadAudio(`${fileName}.mp3`);
+            StorageController.uploadAudio(`/tmp/${fileName}.mp3`, `${fileName}.mp3`);
         } catch(err) {
             console.log("got here");
             console.log(err);
