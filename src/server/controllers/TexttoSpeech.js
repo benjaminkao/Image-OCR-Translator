@@ -1,6 +1,7 @@
 const textToSpeech = require("@google-cloud/text-to-speech");
 const fs = require("fs");
 const util = require("util");
+const path = require('path');
 
 const client = require("./ApiConnections").textToSpeech;
 const StorageController = require("./Storage").Controller;

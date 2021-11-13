@@ -11,9 +11,15 @@ const Controller = {
         console.log(`Uploading ${imagePath} to Google Cloud Storage`);
         await imageBucket.upload(imagePath, {resumable: false});
 
-        unlink(imagePath, (err) => {
+        fs.unlink(imagePath, (err) => {
             if (err) throw err;
-            console.log(`successfully deleted ${imagePath}`);
+            
+
+            var stat = fs.existsSync(imagePath);
+
+            if(!stat) {
+                console.log(`successfully deleted ${imagePath}`);
+            }
           });
 
     },
@@ -47,9 +53,14 @@ const Controller = {
             });
         
 
-            unlink(imagePath, (err) => {
+            fs.unlink(audioPath, (err) => {
                 if (err) throw err;
-                console.log(`successfully deleted ${imagePath}`);
+                
+                var stat = fs.existsSync(audioPath);
+
+                if(!stat) {
+                    console.log(`successfully deleted ${audioPath}`);
+                }
               });
         
 
